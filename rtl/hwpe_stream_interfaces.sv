@@ -20,20 +20,22 @@
 interface hwpe_stream_intf_tcdm (
   input logic clk
 );
+  parameter int unsigned DW = 32; //Data Width
+  parameter int unsigned AW = 32; //Addres Width
 `ifndef SYNTHESIS
   // the TRVR assert is disabled by default, as it is only valid for zero-latency
   // accesses (e.g. using FIFO queues breaks this assumption)
   parameter bit BYPASS_TRVR_ASSERT = 1'b1;
 `endif
 
-  logic        req;
-  logic        gnt;
-  logic [31:0] add;
-  logic        wen;
-  logic [3:0]  be;
-  logic [31:0] data;
-  logic [31:0] r_data;
-  logic        r_valid;
+  logic            req;
+  logic            gnt;
+  logic [AW-1:0]   add;
+  logic            wen;
+  logic [DW/8-1:0] be;
+  logic [DW-1:0]   data;
+  logic [DW-1:0]   r_data;
+  logic            r_valid;
 
   modport master (
     output req, add, wen, be, data,
